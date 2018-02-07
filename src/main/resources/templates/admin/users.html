@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+</head>
+<body>
+
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container">
+    <h2>
+        <span>Books</span>
+    </h2>
+    <a class="btn btn-primary" th:href="@{/admin/users/add}">
+        Add New User
+    </a>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span>ID</span> <span></span></th>
+                <th><span>UserName</span> <span></span></th>
+                <th><span>User First Name</span> <span></span></th>
+                <th><span>User Last Name</span> <span></span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td>[[${user.userId}]]</td>
+                <td>[[${user.userName}]]</td>
+                <td>[[${user.userFirstName}]]</td>
+                <td>[[${user.userLastName}]]</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <a th:href="@{'/admin/users/edit/{userId}'(userId=${user.userId})}"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </a>
+                        <a th:href="@{'/admin/users/delete/{userId}'(userId=${user.userId})}"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+</head>
+<body>
+
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container">
+    <div class="alert alert-success" th:if="${successMessage}" th:utext="${successMessage}">
+    </div>
+    <p th:switch="${showAllOrders}">
+        <a th:case="true" class="btn btn-danger" th:href="@{/admin/orders}">Hide completed Orders</a>
+        <a th:case="*" class="btn btn-primary" th:href="@{/admin/orders/all}">Show completed Orders</a>
+    </p>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>User</th>
+            <th colspan="2">Order</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(orders)}">
+            <td colspan="7">There are no orders</td>
+        </tr>
+        <th:block th:each="o : ${orders}">
+                <tr th:switch="${o.orderStatus}">
+                    <td>[[${o.orderId}]]</td>
+                    <td>[[${o.orderDate}]]</td>
+                    <td>[[${o.orderPrice}]] &#036;</td>
+                    <td th:case="true"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    <td th:case="false"><i class="fa fa-clock-o" aria-hidden="true"></i></td>
+                    <td><a th:href="@{'/admin/users/edit/{userId}'(userId=${o.user.userId})}">[[${o.user.userName}]]</a></td>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <td>
+                        <a th:unless="${o.orderStatus}" class="btn btn-warning"
+                           th:href="@{'/admin/orders/complete/{orderId}'(orderId=${o.orderId})}">
+                            Complete
+                        </a>
+                        <a class="btn btn-danger" th:href="@{'/admin/orders/delete/{orderId}'(orderId=${o.orderId})}">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            <tr th:each="orderBook : ${o.books}">
+                <td colspan="5"></td>
+                <td><a th:href="@{'/admin/books/view/{bookId}'(bookId=${orderBook.book.bookId})}">[[${orderBook.book.bookTitle}]]</a>
+                </td>
+                <td>[[${orderBook.quantity}]]</td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

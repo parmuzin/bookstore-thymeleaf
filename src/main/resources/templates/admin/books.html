@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+</head>
+<body>
+
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container">
+    <h2>
+        <span>Books</span>
+    </h2>
+    <div class="alert alert-success" th:if="${successMessage}" th:utext="${successMessage}">
+    </div>
+    <a class="btn btn-primary" th:href="@{/admin/books/add}">
+        Add New Book
+    </a>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span>ID</span> <span></span></th>
+                <th><span>Book Title</span> <span></span></th>
+                <th><span>Book Author</span> <span></span></th>
+                <th><span>Book Pages</span> <span></span></th>
+                <th><span>Book Isbn</span> <span></span></th>
+                <th><span>Book Price</span> <span></span></th>
+                <th><span>Book Image</span> <span></span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td>[[${book.bookId}]]</td>
+                <td>[[${book.bookTitle}]]</td>
+                <td>[[${book.bookAuthor}]]</td>
+                <td>[[${book.bookPages}]]</td>
+                <td>[[${book.bookIsbn}]]</td>
+                <td>[[${book.bookPrice}]]</td>
+                <td>
+                    <img width="30px" th:src="@{|/bookImage?bookId=${book.bookId}|}"/>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <a th:href="@{'/admin/books/view/{bookId}'(bookId=${book.bookId})}"
+                           class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </a>
+                        <a th:href="@{'/admin/books/edit/{bookId}'(bookId=${book.bookId})}"
+                           class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </a>
+                        <a th:href="@{'/admin/books/delete/{bookId}'(bookId=${book.bookId})}"
+                           class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

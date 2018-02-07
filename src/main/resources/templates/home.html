@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:replace="fragments/header :: head">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div th:each="book : ${books}" class="col-md-3">
+            <div class="card border-light mb-3">
+                <div class="card-body">
+                        <p>
+                            <a href="" th:href="@{/books/{bookId}(bookId=${book.bookId})}">
+                                <img height="300px" src="" th:src="@{|/bookImage?bookId=${book.bookId}|}"/>
+                            </a>
+                        </p>
+                        <h2>[[${book.bookPrice}]] $</h2>
+                        <p class="card-text">[[${book.bookTitle}]]<br>[[${book.bookAuthor}]]</p>
+                        <a class="btn btn-outline-dark border border-white"
+                           th:href="@{'/order/addBook/{bookId}'(bookId=${book.bookId})}">
+                            Add to Order
+                        </a>
+                </div>
+            </div>
+        </div><!--/span-->
+    </div><!--/row-->
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+</head>
+<body>
+
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container">
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <h2>Thanks!</h2>
+        <p>Thanks for placing your order.</p>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-warning" role="alert">
+        <h2>Error!</h2>
+        <p>[[${errorMessage}]].</p>
+    </div>
+    <div class="m-a-1">
+        <h2 class="text-xs-center">Your Order</h2>
+        <table class="table table-bordered table-striped p-a-1">
+            <thead>
+            <tr>
+                <th>Quantity</th>
+                <th>Book</th>
+                <th class="text-xs-right">Price</th>
+                <th class="text-xs-right"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(order.books)}">
+                <td colspan="4" class="text-xs-center">
+                    Your order is empty
+                </td>
+            </tr>
+            <tr th:each="orderBook : ${order.books}">
+                <td>
+                    <form th:action="@{/order/updateBook}" method="post">
+                        <input th:value="${orderBook.quantity}" name="quantity" type="number" class="form-control-sm"
+                               style="width:5em"/>
+                        <input name="bookId" th:value="${orderBook.book.bookId}" hidden/>
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            Update
+                        </button>
+                    </form>
+                </td>
+                <td>[[${orderBook.book.bookTitle}]]</td>
+                <td class="text-xs-right">
+                    [[${orderBook.book.bookPrice}]] $
+                </td>
+                <td class="text-xs-right">
+                </td>
+                <td class="text-xs-center">
+                    <a class="btn btn-sm btn-danger"
+                       th:href="@{'/order/removeBook/{bookId}'(bookId=${orderBook.book.bookId})}">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3" class="text-xs-right">Total:</td>
+                <td th:unless="${#lists.isEmpty(order.books)}" class="text-xs-right">
+                    [[${order.orderPrice}]] $
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="text-xs-center">
+        <a class="btn btn-primary" th:href="@{/home}">Continue Shopping</a>
+        <a class="btn btn-success" th:href="@{/order/createOrder}">
+            Checkout
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

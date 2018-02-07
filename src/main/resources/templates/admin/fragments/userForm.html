@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div th:fragment="userForm" class="col-md-4">
+            <div class="alert alert-success" th:if="${successMessage}" th:utext="${successMessage}">
+            </div>
+            <form name="userForm" role="form" method="post" th:object="${user}" th:action="@{${action}}">
+                <div>
+                    <h4 th:text="${edit} ? 'Edit a User' : 'Create a User'"></h4>
+                </div>
+                <div th:if="${edit}" class="form-group">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                           th:field="*{userId}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="login">Username</label>
+                    <input type="text" class="form-control" id="login" name="login"
+                           th:field="*{userName}" required
+                           minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
+                    <div th:if="${#fields.hasErrors('userName')}">
+                        <small class="form-text text-danger" th:errors="*{userName}">
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="firstName">First Name</label>
+                    <input type="text" class="form-control"  id="firstName"
+                           th:field="*{userFirstName}" name="firstName" required
+                           minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
+                    <div th:if="${#fields.hasErrors('userFirstName')}">
+                        <small class="form-text text-danger" th:errors="*{userFirstName}">
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="lastName">Last Name</label>
+                    <input type="text" class="form-control"  id="lastName"
+                           th:field="*{userLastName}" name="lastName" required
+                           minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
+                    <div th:if="${#fields.hasErrors('userLastName')}">
+                        <small class="form-text text-danger" th:errors="*{userLastName}">
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="password">New password</label>
+                    <input type="password" class="form-control" id="password" name="password"
+                           th:field="*{userPassword}" minlength=4 maxlength=50>
+                    <div th:if="${#fields.hasErrors('userPassword')}">
+                        <small class="form-text text-danger" th:errors="*{userPassword}">
+                        </small>
+                    </div>
+                    <!-- <jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar> -->
+                </div>
+                <a type="button" class="btn btn-secondary" th:href="@{/admin/users}">
+                    <span class="fa fa-ban"></span>&nbsp;<span>Back</span>
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <span class="fa fa-save"></span>&nbsp;<span th:text="${edit} ? 'Update' : 'Create'"> Create </span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

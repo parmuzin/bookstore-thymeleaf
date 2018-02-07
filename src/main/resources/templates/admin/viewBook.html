@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: head">
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4 mr-5">
+            <p><img height="500px" th:src="@{|/bookImage?bookId=${book.bookId}|}"/></p>
+            <p></p>
+            <button class="btn btn-info" onclick="history.back()">
+                <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+            </button>
+        </div>
+        <div class="col-md-5">
+            <h1>[[${book.bookTitle}]]</h1>
+            <dl class="row">
+                <dt class="col-6 text-secondary">Book Title</dt>
+                <dd class="col-6">[[${book.bookTitle}]]</dd>
+
+                <dt class="col-6 text-secondary">Book Author</dt>
+                <dd class="col-6">[[${book.bookAuthor}]]</dd>
+
+                <dt class="col-6 text-secondary">Book Pages</dt>
+                <dd class="col-6">[[${book.bookPages}]]</dd>
+
+                <dt class="col-6 text-secondary">Book Isbn</dt>
+                <dd class="col-6">[[${book.bookIsbn}]]</dd>
+
+                <dt class="col-6 text-secondary">Book Price</dt>
+                <dd class="col-6">[[${book.bookPrice}]]</dd>
+            </dl>
+            <h4>About book</h4>
+            <p align="justify">[[${book.bookDescription}]]</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

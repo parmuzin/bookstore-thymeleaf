@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="bookForm" class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="alert alert-success" th:if="${successMessage}" th:utext="${successMessage}">
+            </div>
+            <form name="bookForm" role="form" method="post" th:object="${bookForm}" th:action="@{${action}}" enctype="multipart/form-data">
+                <div>
+                    <h4 th:text="${edit} ? 'Edit a Book' : 'Create a Book'"></h4>
+                </div>
+                <div th:if="${edit}" class="form-group">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                           th:field="*{bookId}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bookTitle">Book Title</label>
+                    <input type="text" class="form-control" name="bookTitle" id="field_bookTitle" required
+                           th:field="*{bookTitle}"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bookAuthor">Book Author</label>
+                    <input type="text" class="form-control" name="bookAuthor" id="field_bookAuthor" required
+                           th:field="*{bookAuthor}"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bookPages">Book Pages</label>
+                    <input type="number" class="form-control" name="bookPages" id="field_bookPages" required
+                           th:field="*{bookPages}"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bookIsbn">Book Isbn</label>
+                    <input type="text" class="form-control" name="bookIsbn" id="field_bookIsbn" required
+                           th:field="*{bookIsbn}"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bookPrice">Book Price</label>
+                    <input type="number" class="form-control" name="bookPrice" id="field_bookPrice" required
+                           th:field="*{bookPrice}"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bookDescription">Book Description</label>
+                    <textarea class="form-control" name="bookDescription" id="field_bookDescription" required
+                              th:field="*{bookDescription}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bookImage">Book Image</label>
+                    <div>
+                        <img th:if="${edit}" height="100px" th:src="@{|/bookImage?bookId=${bookForm.bookId}|}"/>
+                        <input type="file" class="form-control" name="bookImage" id="field_bookImage"
+                               th:field="*{bookImage}" accept="image/*"/>
+                    </div>
+                </div>
+                <a type="button" class="btn btn-secondary" th:href="@{/admin/books}">
+                    <span class="fa fa-ban"></span>&nbsp;<span>Back</span>
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <span class="fa fa-save"></span>&nbsp;<span th:text="${edit} ? 'Update' : 'Create'"> Create </span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

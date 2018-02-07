@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+</head>
+<body>
+
+<div th:replace="fragments/header :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <div class="alert alert-success" th:if="${successMessage}" th:utext="${successMessage}">
+                    </div>
+                    <form name="form" role="form" th:action="@{/profile}" th:object="${user}" th:method="PUT">
+                        <div class="form-group">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" id="id"
+                                   name="id" th:field="*{userId}" readonly/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="login">Username</label>
+                            <input type="text" class="form-control" id="login" name="login"
+                                   th:field="*{userName}" required
+                                   minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
+                            <div th:if="${#fields.hasErrors('userName')}">
+                                <small class="form-text text-danger" th:errors="*{userName}">
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName"
+                                   th:field="*{userFirstName}" name="firstName" required
+                                   minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
+                            <div th:if="${#fields.hasErrors('userFirstName')}">
+                                <small class="form-text text-danger" th:errors="*{userFirstName}">
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName"
+                                   th:field="*{userLastName}" name="lastName" required
+                                   minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
+                            <div th:if="${#fields.hasErrors('userLastName')}">
+                                <small class="form-text text-danger" th:errors="*{userLastName}">
+                                </small>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary" th:href="@{/home}">Return to Store</a>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <button class="btn btn-primary" type="button"
+                    data-toggle="collapse" data-target="#orders"
+                    aria-expanded="false" aria-controls="orders">
+                Show Orders
+            </button>
+            <div class="collapse" id="orders">
+                <table class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Date</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th colspan="2">Order</th>
+                        <th></th>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(orders)}">
+                        <td colspan="6">There are no orders</td>
+                    </tr>
+                    </thead>
+                    <tbody th:each="o : ${orders}">
+                    <tr>
+                        <td>[[${o.orderId}]]</td>
+                        <td>[[${o.orderDate}]]</td>
+                        <td>[[${o.orderPrice}]]$</td>
+                        <td th:if="${o.orderStatus}"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td th:if="${!o.orderStatus}"><i class="fa fa-clock-o" aria-hidden="true"></i></td>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                    </tr>
+                    <tr th:each="orderBook : ${o.books}">
+                        <td colspan="4"></td>
+
+                        <td><a th:href="@{'/books/{bookId}'(bookId=${orderBook.book.bookId})}">[[${orderBook.book.bookTitle}]]</a></td>
+                        <td>[[${orderBook.quantity}]]</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
